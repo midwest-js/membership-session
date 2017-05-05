@@ -16,6 +16,29 @@ const isAuthenticated = function (req, res, next) {
   next(createError('Not authenticated'));
 };
 
+const redirectAuthenticated = function (url) {
+  return function redirectAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      res.redirect(url);
+    } else {
+      next();
+    }
+  };
+};
+
+const redirectUnauthenticated = function (url) {
+  return function redirectUnauthenticated(error, req, res, next) {
+    if (error.status === 401 && !(req.session && req.session.user) && !req.xhr && req.accepts('html', 'json') === 'html') {
+      req.session.previousUrl = req.originalUrl;
+      res.redirect(url);
+    } else {
+      next(error);
+    }
+  };
+};
+
 module.exports = {
   isAuthenticated,
+  redirectAuthenticated,
+  redirectUnauthenticated,
 };

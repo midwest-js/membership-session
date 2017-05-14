@@ -51,13 +51,19 @@ module.exports = (target, { userGetter, serialize, deserialize }) => {
     },
   };
 
-  Object.assign(target, obj);
-
   if (userGetter === true) {
-    Object.defineProperty(target, 'user', {
+    Object.defineProperty(obj, 'user', {
       get() {
         return this.getUser();
-      }
+      },
+      enumerable: true,
+      configurable: true,
     });
   }
+
+  if (target) {
+    Object.assign(target, obj);
+  }
+
+  return obj;
 };

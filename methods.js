@@ -3,7 +3,7 @@
 const _ = require('lodash');
 const Promise = require('bluebird');
 
-module.exports = (target, { userGetter, serialize, deserialize }) => {
+module.exports = ({ userGetter, serialize, deserialize }) => {
   if (!_.isFunction(serialize) || !_.isFunction(deserialize)) {
     throw new TypeError('Both arguments need to be functions');
   }
@@ -59,10 +59,6 @@ module.exports = (target, { userGetter, serialize, deserialize }) => {
       enumerable: true,
       configurable: true,
     });
-  }
-
-  if (target) {
-    Object.assign(target, obj);
   }
 
   return obj;

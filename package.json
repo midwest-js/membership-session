@@ -1,5 +1,5 @@
 {
-  "name": "midwest-membership-request",
+  "name": "midwest-membership-session",
   "version": "0.0.1",
   "description": "Extend req",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/thebitmill/midwest-membership-request.git"
+    "url": "git+https://github.com/thebitmill/midwest-membership-session.git"
   },
   "author": "Linus Miller <lohfu@lohfu.io> (https://lohfu.io/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thebitmill/midwest-membership-request/issues"
+    "url": "https://github.com/thebitmill/midwest-membership-session/issues"
   },
-  "homepage": "https://github.com/thebitmill/midwest-membership-request#readme",
+  "homepage": "https://github.com/thebitmill/midwest-membership-session#readme",
   "dependencies": {
     "bluebird": "^3.5.0",
     "lodash": "^4.17.4"

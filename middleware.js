@@ -1,44 +1,44 @@
-'use strict';
+'use strict'
 
-function createError(message) {
-  const err = new Error(message || 'Unauthenticated request');
+function createError (message) {
+  const err = new Error(message || 'Unauthenticated request')
 
-  err.status = 401;
+  err.status = 401
 
-  return err;
+  return err
 }
 
 const isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
-    return next();
+    return next()
   }
 
-  next(createError('Not authenticated'));
-};
+  next(createError('Not authenticated'))
+}
 
 const redirectAuthenticated = function (url) {
-  return function redirectAuthenticated(req, res, next) {
+  return function redirectAuthenticated (req, res, next) {
     if (req.isAuthenticated()) {
-      res.redirect(url);
+      res.redirect(url)
     } else {
-      next();
+      next()
     }
-  };
-};
+  }
+}
 
 const redirectUnauthenticated = function (url) {
-  return function redirectUnauthenticated(error, req, res, next) {
+  return function redirectUnauthenticated (error, req, res, next) {
     if (error.status === 401 && !(req.session && req.session.user) && !req.xhr && req.accepts('html', 'json') === 'html') {
-      req.session.previousUrl = req.originalUrl;
-      res.redirect(url);
+      req.session.previousUrl = req.originalUrl
+      res.redirect(url)
     } else {
-      next(error);
+      next(error)
     }
-  };
-};
+  }
+}
 
 module.exports = {
   isAuthenticated,
   redirectAuthenticated,
   redirectUnauthenticated,
-};
+}

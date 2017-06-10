@@ -1,65 +1,65 @@
-'use strict';
+'use strict'
 
-const _ = require('lodash');
-const Promise = require('bluebird');
+const _ = require('lodash')
+const Promise = require('bluebird')
 
 module.exports = ({ userGetter, serialize, deserialize }) => {
   if (!_.isFunction(serialize) || !_.isFunction(deserialize)) {
-    throw new TypeError('Both arguments need to be functions');
+    throw new TypeError('Both arguments need to be functions')
   }
 
   const obj = {
-    login(user) {
+    login (user) {
       if (!this.session) {
-        Promise.resolve('Session middleware not in use');
+        Promise.resolve('Session middleware not in use')
       } else {
         return Promise.try(() => serialize(user)).then((result) => {
-          const saveSession = Promise.promisify(this.session.save, { context: this.session });
+          const saveSession = Promise.promisify(this.session.save, { context: this.session })
 
-          this.session.user = result;
+          this.session.user = result
 
-          return saveSession();
-        });
+          return saveSession()
+        })
       }
     },
 
-    logout() {
-      const destroySession = Promise.promisify(this.session.destroy, { context: this.session });
+    logout () {
+      const destroySession = Promise.promisify(this.session.destroy, { context: this.session })
 
-      return destroySession();
+      return destroySession()
     },
 
-    isAuthenticated() {
-      return this.session && this.session.user;
+    isAuthenticated () {
+      return this.session && this.session.user
     },
 
-    isUnauthenticated() {
-      return !this.isAuthenticated();
+    isUnauthenticated () {
+      return !this.isAuthenticated()
     },
 
-    getUser() {
+    getUser () {
       if (!this.session || !this.session.user) {
-        return Promise.resolve(null);
+        return Promise.resolve(null)
       } else if (!this.__userPromise) {
         this.__userPromise = Promise.try(() => deserialize(this.session.user)).catch((err) => {
           // TODO
-          console.error(err);
-        });
+          console.error(err)
+        })
       }
 
-      return this.__userPromise;
+      return this.__userPromise
     },
-  };
+  }
 
   if (userGetter === true) {
     Object.defineProperty(obj, 'user', {
-      get() {
-        return this.getUser();
+      get () {
+        return this.getUser()
       },
       enumerable: true,
       configurable: true,
-    });
+    })
   }
 
-  return obj;
-};
+  return obj
+}

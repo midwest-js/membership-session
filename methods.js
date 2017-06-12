@@ -14,9 +14,9 @@ module.exports = ({ userGetter, serialize, deserialize }) => {
         Promise.resolve('Session middleware not in use')
       } else {
         return Promise.try(() => serialize(user)).then((result) => {
-          const saveSession = Promise.promisify(this.session.save, { context: this.session })
-
           this.session.user = result
+
+          const saveSession = Promise.promisify(this.session.save, { context: this.session })
 
           return saveSession()
         })
@@ -49,16 +49,6 @@ module.exports = ({ userGetter, serialize, deserialize }) => {
 
       return this.__userPromise
     },
-  }
-
-  if (userGetter === true) {
-    Object.defineProperty(obj, 'user', {
-      get () {
-        return this.getUser()
-      },
-      enumerable: true,
-      configurable: true,
-    })
   }
 
   return obj

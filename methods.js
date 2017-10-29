@@ -9,12 +9,20 @@ module.exports = ({ userGetter, serialize, deserialize }) => {
   }
 
   const obj = {
-    login (user) {
+    login (user, { remember } = {}) {
       if (!this.session) {
         Promise.resolve('Session middleware not in use')
       } else {
         return Promise.try(() => serialize(user)).then((result) => {
           this.session.user = result
+
+          if (remember) {
+            if (state.remember.expires) {
+              this.session.cookie.expires = state.remember.expires
+            } else {
+              this.session.cookie.maxAge = state.remember && state.remember.maxAge
+            }
+          }
 
           const saveSession = Promise.promisify(this.session.save, { context: this.session })
 

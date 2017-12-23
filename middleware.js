@@ -8,7 +8,7 @@ function createError (message) {
   return err
 }
 
-const isAuthenticated = function (req, res, next) {
+function isAuthenticated (req, res, next) {
   if (req.isAuthenticated()) {
     return next()
   }
@@ -16,7 +16,7 @@ const isAuthenticated = function (req, res, next) {
   next(createError('Not authenticated'))
 }
 
-const redirectAuthenticated = function (url) {
+function redirectAuthenticated (url) {
   return function redirectAuthenticated (req, res, next) {
     if (req.isAuthenticated()) {
       res.redirect(url)
@@ -26,7 +26,7 @@ const redirectAuthenticated = function (url) {
   }
 }
 
-const redirectUnauthenticated = function (url) {
+function redirectUnauthenticated (url) {
   return function redirectUnauthenticated (error, req, res, next) {
     if (error.status === 401 && !(req.session && req.session.user)) {
       req.session.previousUrl = req.originalUrl

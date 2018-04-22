@@ -11,7 +11,7 @@ module.exports = ({ userGetter, serialize, deserialize }) => {
   const obj = {
     login (user, { remember } = {}) {
       if (!this.session) {
-        Promise.resolve('Session middleware not in use')
+        return Promise.reject(new Error('Session middleware not in use'))
       } else {
         return Promise.try(() => serialize(user)).then((result) => {
           this.session.user = result

@@ -1,5 +1,5 @@
 {
-  "name": "midwest-membership-session",
+  "name": "@midwest/membership-session",
   "version": "0.0.1",
   "description": "Extend req",
   "main": "index.js",

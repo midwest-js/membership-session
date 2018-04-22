@@ -17,10 +17,10 @@ module.exports = ({ userGetter, serialize, deserialize }) => {
           this.session.user = result
 
           if (remember) {
-            if (state.remember.expires) {
-              this.session.cookie.expires = state.remember.expires
+            if (remember.expires) {
+              this.session.cookie.expires = remember.expires
             } else {
-              this.session.cookie.maxAge = state.remember && state.remember.maxAge
+              this.session.cookie.maxAge = remember && remember.maxAge
             }
           }
 

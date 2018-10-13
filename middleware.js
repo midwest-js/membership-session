@@ -27,12 +27,12 @@ function redirectAuthenticated (url) {
 }
 
 function redirectUnauthenticated (url) {
-  return function redirectUnauthenticated (error, req, res, next) {
-    if (error.status === 401 && !(req.session && req.session.user)) {
+  return function redirectUnauthenticated (req, res, next) {
+    if (!req.session || !req.session.user) {
       req.session.previousUrl = req.originalUrl
       res.redirect(url)
     } else {
-      next(error)
+      next()
     }
   }
 }
